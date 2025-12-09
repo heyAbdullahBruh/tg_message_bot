@@ -3,15 +3,19 @@ import { config } from "../config/env.js";
 
 // Initialize Bot
 const bot = new TelegramBot(config.telegramToken, {
-  polling: false, 
+  polling: {
+    interval: 300,
+    autoStart: true,
+    params: {
+      timeout: 10 
+    }
+  },
   request: {
-    timeout: 10000,
+    timeout: 20000, 
     headers: { "User-Agent": "Telegram-Contact-Bot/2.0" },
   },
 });
 
-// 🌟 GLOBAL HELPER: Escape HTML to prevent crashes
-// We define this outside to use it everywhere
 const escapeHTML = (text) => {
   if (!text) return "";
   return String(text)

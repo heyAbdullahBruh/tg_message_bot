@@ -3,15 +3,9 @@ import { config } from "../config/env.js";
 
 // Initialize Bot
 const bot = new TelegramBot(config.telegramToken, {
-  polling: {
-    interval: 300,
-    autoStart: true,
-    params: {
-      timeout: 10 
-    }
-  },
+  polling: false,
   request: {
-    timeout: 20000, 
+    timeout: 20000,
     headers: { "User-Agent": "Telegram-Contact-Bot/2.0" },
   },
 });
@@ -49,6 +43,14 @@ export const sendContactNotification = async (data, geo) => {
     timeStyle: "short",
   });
 
+  const stopBot = () => {
+    if (bot.isPolling()) {
+      console.log("🛑 Stopping Telegram Bot polling...");
+      bot.stopPolling();
+    }
+  };
+  process.once("SIGINT", stopBot);
+  process.once("SIGTERM", stopBot);
   // 2. Helper for Emoji
   const getCountryEmoji = (code) => {
     if (!code) return "🌍";

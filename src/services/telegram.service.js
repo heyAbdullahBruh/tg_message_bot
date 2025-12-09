@@ -3,7 +3,7 @@ import { config } from "../config/env.js";
 
 // Initialize Bot
 const bot = new TelegramBot(config.telegramToken, {
-  polling: true, // ⚠️ Changed to TRUE to listen for button clicks
+  polling: false, 
   request: {
     timeout: 10000,
     headers: { "User-Agent": "Telegram-Contact-Bot/2.0" },
